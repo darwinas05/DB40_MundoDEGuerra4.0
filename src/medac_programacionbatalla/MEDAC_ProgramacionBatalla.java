@@ -4,7 +4,9 @@
  */
 package medac_programacionbatalla;
 
+import Interfaces.interfasPrincipal;
 import batallas.Batalla;
+import database.basesDate;
 
 /**
  * @author danie
@@ -16,8 +18,10 @@ public class MEDAC_ProgramacionBatalla {
      */
     public static void main(String[] args) {
 
-//        String test = ExploradorFicheros.leerFichero();
-        Batalla batalla = new Batalla();
+
+        interfasPrincipal interfasprincipal = new interfasPrincipal();
+        interfasprincipal.setVisible(true);
+        interfasprincipal.setLocationRelativeTo(null);
 
     }
 }

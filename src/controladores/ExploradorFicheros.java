@@ -6,7 +6,7 @@ import javax.swing.*;
 public class ExploradorFicheros {
 
     // JLabel para mostrar los archivos seleccionados por el usuario
-    String ruta;
+   private static String ruta;
 
     public ExploradorFicheros() {
 
@@ -54,6 +54,10 @@ public class ExploradorFicheros {
 
     public String getNombreFichero(){
         System.out.println(ruta);
+        return ruta;
+    }
+
+    public static String getRuta() {
         return ruta;
     }
 }

@@ -345,7 +345,7 @@ public class Ejercito {
         }
     }
 
-    private void asignarNombre(String nombre) {
+  public void asignarNombre(String nombre) {
         try {
             if (!nombres.contains(nombre)) {
                 nombres.add(nombre);
