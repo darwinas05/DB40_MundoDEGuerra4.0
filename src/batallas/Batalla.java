@@ -16,19 +16,16 @@ import java.util.Random;
  */
 public class Batalla {
     private static final int MAX_RONDAS = 5;
-    private final Ejercito ejercito1;
-    private final Ejercito ejercito2;
+    private static Ejercito ejercito1 = new Ejercito();
+    private static Ejercito ejercito2 = new Ejercito();
     private final ArrayList<Ronda> rondas;
     private final Random random = new Random();
     private int numRondas;
     private Ejercito ganador;
 
     public Batalla() {
-        ejercito1 = new Ejercito();
-        ejercito2 = new Ejercito();
         numRondas = 0;
         rondas = new ArrayList<>();
-        luchar();
     }
 
     private void luchar() {
@@ -60,7 +57,8 @@ public class Batalla {
                     if (getGanador() == ejercito1) {
                         System.out.println(System.lineSeparator() + Message.EJERCITO_GANADOR +
                                 ejercito1.getNombre());
-                    } else {
+                    }
+                    if(getGanador() == ejercito2){
                         System.out.println(System.lineSeparator() + Message.EJERCITO_GANADOR +
                                 ejercito2.getNombre());
                     }
@@ -91,7 +89,45 @@ public class Batalla {
         return false;
     }
 
+
+    public static Ejercito getEjercito1() {
+        return ejercito1;
+    }
+    public static Ejercito getEjercito2() {
+        return ejercito2;
+    }
+
     public Ejercito getGanador() {
         return ganador;
+    }
+
+    public int getNumRondas() {
+        return numRondas;
+    }
+
+    public static void setEjercito1(Ejercito ejercito1) {
+        Batalla.ejercito1 = ejercito1;
+    }
+
+    public static void setEjercito2(Ejercito ejercito2) {
+        Batalla.ejercito2 = ejercito2;
+    }
+
+    public void setNumRondas(int numRondas) {
+        this.numRondas = numRondas;
+    }
+
+    public ArrayList<Ronda> getRondas() {
+        return rondas;
+    }
+
+    @Override
+    public String toString() {
+        return "Batalla{" +
+                "rondas=" + rondas +
+                ", random=" + random +
+                ", numRondas=" + numRondas +
+                ", ganador=" + ganador +
+                '}';
     }
 }

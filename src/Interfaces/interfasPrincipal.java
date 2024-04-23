@@ -84,16 +84,15 @@ public class interfasPrincipal extends javax.swing.JFrame {
 
 private void paraSeleccionarActionPerformed(java.awt.event.ActionEvent evt){
     JFileChooser fileChooser = new JFileChooser();
+    ExploradorFicheros.obtenerRuta();
 
+    fileChooser.setDialogTitle("Seleciona un fichero");//la ventana tendra este titulo.
     fileChooser.setSelectedFile(new File("Generales.txt"));
 
-    fileChooser.setDialogTitle("Seleciona un fichero");
-    int resultado = fileChooser.showOpenDialog(null);
-    GestorFichero generales = new GestorFichero();
     try {
-        GestorFichero.obtenerNombreGeneral("C:\\Users\\darwi\\OneDrive\\Escritorio\\Generales.txt");
+        GestorFichero.obtenerNombreGeneral(ExploradorFicheros.obtenerRuta());
     } catch (IOException ex) {
-
+        System.out.printf(ex.getMessage());
     }
 
 }
