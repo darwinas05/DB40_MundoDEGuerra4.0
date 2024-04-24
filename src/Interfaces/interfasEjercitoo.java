@@ -22,17 +22,32 @@ public class interfasEjercitoo extends javax.swing.JFrame{
     private Tigre trigre;
     DefaultTableModel modelo = new DefaultTableModel();
 
+
+    public interfasEjercitoo() {
+        initComponents();
+
+        modelo.addColumn("Tipo");
+        modelo.addColumn("ID");
+        modelo.addColumn("Ataque");
+        modelo.addColumn("Defensa");
+        modelo.addColumn("Salud");
+        this.Tablaa.setModel(modelo);
+
+        barra.setMinimum(0);
+        barra.setMaximum(Ejercito.getMaxPeso());
+        barra.setStringPainted(true);
+        barra.setString(ejercito.getSaldoPeso()+ "/"+ Ejercito.getMaxPeso());
+
+    }
+    // Metodo para agregar una imagen como icono.
     public Icon icono(String path, int width, int heigth) {
         Icon img = new ImageIcon(new ImageIcon(getClass()
                 .getResource(path)).getImage().getScaledInstance(width,
                 heigth, java.awt.Image.SCALE_SMOOTH));
         return img;
     }
-    public interfasEjercitoo() {
-        initComponents();
 
-    }
-    private void initComponents(){
+        private void initComponents(){
 
         botones = new javax.swing.JPanel();
         NombreEjercito = new javax.swing.JButton();
@@ -275,6 +290,7 @@ public class interfasEjercitoo extends javax.swing.JFrame{
         pack();
     }
 
+
     private void NombreEjercitoActionPerformed(java.awt.event.ActionEvent evt) {
 
         // Agregamos un icono al JOptionPane, el mensaje a mostrar y el titulo de la ventana.
@@ -356,4 +372,6 @@ public class interfasEjercitoo extends javax.swing.JFrame{
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel nombreEjercito;
     private javax.swing.JFormattedTextField totalElemt;
+
+
 }
