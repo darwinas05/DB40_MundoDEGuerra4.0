@@ -370,6 +370,10 @@ public class Ejercito {
         }
     }
 
+    public ArrayList<Componentes> getUnidades() {
+        return unidades;
+    }
+
     @Override
     public String toString() {
         return "Ejercito{" +

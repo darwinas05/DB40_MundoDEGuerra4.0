@@ -28,4 +28,16 @@ public class Ronda {
     public int getResultado(){
         return resultado;
     }
+
+    public int getNumRonda() {
+        return numRonda;
+    }
+
+    public Ejercito getAtacante() {
+        return atacante;
+    }
+
+    public Ejercito getDefensor() {
+        return defensor;
+    }
 }

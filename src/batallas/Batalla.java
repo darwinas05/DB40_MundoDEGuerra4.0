@@ -28,7 +28,7 @@ public class Batalla {
         rondas = new ArrayList<>();
     }
 
-    private void luchar() {
+    public void luchar() {
         System.out.println(Message.BATALLA_INICIO + ejercito1.getNombre() + " vs " + ejercito2.getNombre() + "!");
 
         Ejercito atacante;

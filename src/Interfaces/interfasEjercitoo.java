@@ -9,11 +9,14 @@ import componentes.animales.Tigre;
 import componentes.personas.Caballeria;
 import componentes.personas.General;
 import componentes.personas.Infanteria;
+import controladores.ExploradorFicheros;
+import controladores.GestorFichero;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+import java.io.IOException;
 
-public class interfasEjercitoo extends javax.swing.JFrame{
+public class interfasEjercitoo extends javax.swing.JFrame {
 
     private static final Batalla batalla = new Batalla();
     private static final Ejercito ejercito = new Ejercito();
@@ -39,9 +42,10 @@ public class interfasEjercitoo extends javax.swing.JFrame{
         barra.setMinimum(0);
         barra.setMaximum(Ejercito.getMaxPeso());
         barra.setStringPainted(true);
-        barra.setString(ejercito.getSaldoPeso()+ "/"+ Ejercito.getMaxPeso());
+        barra.setString(ejercito.getSaldoPeso() + "/" + Ejercito.getMaxPeso());
 
     }
+
     // Metodo para agregar una imagen como icono.
     public Icon icono(String path, int width, int heigth) {
         Icon img = new ImageIcon(new ImageIcon(getClass()
@@ -50,7 +54,7 @@ public class interfasEjercitoo extends javax.swing.JFrame{
         return img;
     }
 
-        private void initComponents(){
+    private void initComponents() {
 
         botones = new javax.swing.JPanel();
         NombreEjercito = new javax.swing.JButton();
@@ -181,7 +185,7 @@ public class interfasEjercitoo extends javax.swing.JFrame{
 
         jLabel1.setText("Saldo : ");
 
-        jLabel2.setText("Ejército1:");
+        jLabel2.setText("Ejército:");
 
         barra.setMaximum(50);
 
@@ -191,7 +195,7 @@ public class interfasEjercitoo extends javax.swing.JFrame{
                 jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                                 .addGap(187, 187, 187)
-                                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGap(94, 94, 94)
                                 .addComponent(jLabel1)
@@ -209,7 +213,7 @@ public class interfasEjercitoo extends javax.swing.JFrame{
                                         .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout.createSequentialGroup()
                                                 .addGap(25, 25, 25)
                                                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                                                         .addGroup(jPanel2Layout.createSequentialGroup()
                                                                 .addGap(9, 9, 9)
                                                                 .addComponent(jLabel1)))))
@@ -256,13 +260,13 @@ public class interfasEjercitoo extends javax.swing.JFrame{
         getContentPane().add(jPanel3, java.awt.BorderLayout.PAGE_END);
 
         Tablaa.setModel(new javax.swing.table.DefaultTableModel(
-                new Object [][] {
+                new Object[][]{
                         {null, null, null, null},
                         {null, null, null, null},
                         {null, null, null, null},
                         {null, null, null, null}
                 },
-                new String [] {
+                new String[]{
                         "Title 1", "Title 2", "Title 3", "Title 4"
                 }
         ));
@@ -299,19 +303,41 @@ public class interfasEjercitoo extends javax.swing.JFrame{
                 "Nombre del ejército", JOptionPane.PLAIN_MESSAGE);
         ejercito.asignarNombre(ingresaName);
         this.jLabel2.setText(ingresaName);
-        if(ingresaName.isEmpty()){
-            JOptionPane.showMessageDialog(null, Message.ERROR_NAME_EMPTY);
-        }else {
-            jLabel2.setText("Ejército: " + ingresaName);
+
+        jLabel2.setText("Ejército: " + ingresaName);
+
+    }
+
+    private void comfirmarEjercitoActionPerformed(java.awt.event.ActionEvent evt) {
+        if (batalla.getEjercito1().getUnidades().isEmpty()) {
+            batalla.setEjercito1(ejercito);
+            System.out.println(ejercito);
+
+            new interfasEjercitoo();
+        } else if (batalla.getEjercito2().getUnidades().isEmpty()) {
+            batalla.setEjercito2(ejercito);
+            batalla.luchar();
+
+            new interfasBatalla();
+
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException ex) {
+                System.out.println(ex.getMessage());
+            }
+
+        } else {
+            JOptionPane.showMessageDialog(null, Message.EJERCITO_VACIO);
+        }
+        dispose();
+        try {
+            GestorFichero.obtenerNombreGeneral(ExploradorFicheros.getRuta());
+        } catch (IOException ex) {
+            System.out.println(ex.getMessage());
         }
     }
-
-    private void comfirmarEjercitoActionPerformed(java.awt.event.ActionEvent evt){
-
-
-    }
-
     private void infanteriaActionPerformed(java.awt.event.ActionEvent evt){
+        //if (batalla.getEjercito1().getUnidades().isEmpty()) {
         Infanteria infanteria = new Infanteria();
         if((ejercito.getSaldoPeso() + infanteria.PESO_INFANTERIA) <= ejercito.MAX_PESO){
 
@@ -323,6 +349,7 @@ public class interfasEjercitoo extends javax.swing.JFrame{
                     infanteria.getSalud(),
 
             });
+            ejercito.saldoPeso += infanteria.PESO_INFANTERIA;
         } barra.setValue(ejercito.getSaldoPeso());
 
     }
@@ -339,6 +366,7 @@ public class interfasEjercitoo extends javax.swing.JFrame{
                     caballeria.getSalud(),
 
             });
+            ejercito.saldoPeso += Caballeria.PESO_CABALLERIA;
         } barra.setValue(ejercito.getSaldoPeso());
     }
     private void btnElefanteActionPerformed(java.awt.event.ActionEvent evt) {
@@ -353,6 +381,7 @@ public class interfasEjercitoo extends javax.swing.JFrame{
                     elefante.getSalud(),
 
             });
+            ejercito.saldoPeso += Elefante.PESO_ELEFANTE;
         } barra.setValue(ejercito.getSaldoPeso());
     }
 
@@ -368,6 +397,7 @@ public class interfasEjercitoo extends javax.swing.JFrame{
                     tigre.getSalud(),
 
             });
+            ejercito.saldoPeso += tigre.PESO_TIGRE;
         } barra.setValue(ejercito.getSaldoPeso());
     }
 
@@ -420,28 +450,31 @@ public class interfasEjercitoo extends javax.swing.JFrame{
 
 
         //declaracion de variables, nombre de los botones.
-    private javax.swing.JButton ConfirmarElementos;
-    private javax.swing.JButton NombreEjercito;
-    public javax.swing.JTable Tablaa;
-    private javax.swing.JProgressBar barra;
+    private JButton ConfirmarElementos;
+    private JButton NombreEjercito;
+    public JTable Tablaa;
+    private JProgressBar barra;
     //para mas :
-    private javax.swing.JPanel botones;
-    private javax.swing.JButton btnElefante;
-    private javax.swing.JButton btnEliminar;
-    private javax.swing.JButton btnGeneral;
-    private javax.swing.JButton btnTigre;
-    private javax.swing.JButton caballeria;
-    private javax.swing.JButton comfirmarEjercito;
-    private javax.swing.JButton infanteria;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel3;
-    private javax.swing.JPanel jPanel4;
-    private javax.swing.JScrollPane jScrollPane1;
+    private JPanel botones;
+    private JButton btnElefante;
+    private JButton btnEliminar;
+    private JButton btnGeneral;
+    private JButton btnTigre;
+    private JButton caballeria;
+    private JButton comfirmarEjercito;
+    private JButton infanteria;
+    private JLabel jLabel1;
+    private JLabel jLabel2;
+    private JLabel jLabel3;
+    private JPanel jPanel2;
+    private JPanel jPanel3;
+    private JPanel jPanel4;
+    private JScrollPane jScrollPane1;
 
-    private javax.swing.JFormattedTextField totalElemt;
+    private JFormattedTextField totalElemt;
 
+    public static Batalla getBatalla(){
+        return batalla;
+    }
 
 }
