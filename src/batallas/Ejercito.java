@@ -30,7 +30,7 @@ import java.util.Scanner;
  */
 public class Ejercito {
 
-    private static final int MAX_PESO = 50;
+    public static final int MAX_PESO = 50;
     public static final int MAX_ANIMALES = 3;
     public static final int MIN_UNIDADES = 2;
     private static final List<String> nombres = new ArrayList<>();
@@ -40,7 +40,7 @@ public class Ejercito {
     private int ataque;
     private int defensa;
     private int salud;
-    private int saldoPeso;
+    public int saldoPeso;
     private String nombre;
 
     public Ejercito() {

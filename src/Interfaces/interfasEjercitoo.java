@@ -2,10 +2,13 @@ package Interfaces;
 
 import batallas.Batalla;
 import batallas.Ejercito;
+import batallas.Message;
 import componentes.*;
 import componentes.animales.Elefante;
 import componentes.animales.Tigre;
+import componentes.personas.Caballeria;
 import componentes.personas.General;
+import componentes.personas.Infanteria;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -62,7 +65,6 @@ public class interfasEjercitoo extends javax.swing.JFrame{
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         barra = new javax.swing.JProgressBar();
-        nombreEjercito = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
         comfirmarEjercito = new javax.swing.JButton();
@@ -191,7 +193,6 @@ public class interfasEjercitoo extends javax.swing.JFrame{
                                 .addGap(187, 187, 187)
                                 .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(nombreEjercito, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(94, 94, 94)
                                 .addComponent(jLabel1)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -208,7 +209,6 @@ public class interfasEjercitoo extends javax.swing.JFrame{
                                         .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout.createSequentialGroup()
                                                 .addGap(25, 25, 25)
                                                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                        .addComponent(nombreEjercito, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                                                         .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                                                         .addGroup(jPanel2Layout.createSequentialGroup()
                                                                 .addGap(9, 9, 9)
@@ -298,7 +298,12 @@ public class interfasEjercitoo extends javax.swing.JFrame{
                         icono("/imagenes/desplazarse.png", 40, 40), JLabel.CENTER),
                 "Nombre del ejército", JOptionPane.PLAIN_MESSAGE);
         ejercito.asignarNombre(ingresaName);
-        this.nombreEjercito.setText(ingresaName);
+        this.jLabel2.setText(ingresaName);
+        if(ingresaName.isEmpty()){
+            JOptionPane.showMessageDialog(null, Message.ERROR_NAME_EMPTY);
+        }else {
+            jLabel2.setText("Ejército: " + ingresaName);
+        }
     }
 
     private void comfirmarEjercitoActionPerformed(java.awt.event.ActionEvent evt){
@@ -307,21 +312,88 @@ public class interfasEjercitoo extends javax.swing.JFrame{
     }
 
     private void infanteriaActionPerformed(java.awt.event.ActionEvent evt){
+        Infanteria infanteria = new Infanteria();
+        if((ejercito.getSaldoPeso() + infanteria.PESO_INFANTERIA) <= ejercito.MAX_PESO){
+
+            modelo.addRow(new Object[]{
+                    "Infanteria",
+                    infanteria.getID(),
+                    infanteria.getAtaque(),
+                    infanteria.getDefensa(),
+                    infanteria.getSalud(),
+
+            });
+        } barra.setValue(ejercito.getSaldoPeso());
 
     }
 
     private void caballeriaActionPerformed(java.awt.event.ActionEvent evt) {
+        Caballeria caballeria = new Caballeria();
+        if((ejercito.getSaldoPeso() + caballeria.PESO_CABALLERIA) <= ejercito.MAX_PESO){
 
+            modelo.addRow(new Object[]{
+                    "Caballeria",
+                    caballeria.getID(),
+                    caballeria.getAtaque(),
+                    caballeria.getDefensa(),
+                    caballeria.getSalud(),
+
+            });
+        } barra.setValue(ejercito.getSaldoPeso());
     }
     private void btnElefanteActionPerformed(java.awt.event.ActionEvent evt) {
+        Elefante elefante = new Elefante();
+        if((ejercito.getSaldoPeso() + elefante.PESO_ELEFANTE) <= ejercito.MAX_PESO){
 
+            modelo.addRow(new Object[]{
+                    "Elefante",
+                    elefante.getID(),
+                    elefante.getAtaque(),
+                    elefante.getDefensa(),
+                    elefante.getSalud(),
+
+            });
+        } barra.setValue(ejercito.getSaldoPeso());
     }
 
     private void btnTigreActionPerformed(java.awt.event.ActionEvent evt) {
+        Tigre tigre = new Tigre();
+        if((ejercito.getSaldoPeso() + tigre.PESO_TIGRE) <= ejercito.MAX_PESO){
 
+            modelo.addRow(new Object[]{
+                    "Tigre",
+                    tigre.getID(),
+                    tigre.getAtaque(),
+                    tigre.getDefensa(),
+                    tigre.getSalud(),
+
+            });
+        } barra.setValue(ejercito.getSaldoPeso());
     }
 
     private void btnGeneralActionPerformed(java.awt.event.ActionEvent evt) {
+
+        if (!ejercito.hayGeneral){
+            General general = new General();
+            if ((ejercito.getSaldoPeso() + general.PESO_GENERAL)<= ejercito.MAX_PESO){
+                modelo.addRow(new Object[]{
+                        general.getNombre(),
+                        general.getID(),
+                        general.getAtaque(),
+                        general.getDefensa(),
+                        general.getSalud()
+                });
+                ejercito.hayGeneral = true;
+                ejercito.saldoPeso += general.PESO_GENERAL;
+                barra.setValue(ejercito.getSaldoPeso());
+            }else {
+                JOptionPane.showMessageDialog(this, Message.UNIDAD_SUPERA_PESO);
+            }
+        }else{
+
+                JOptionPane.showMessageDialog(this, Message.GENERAL_EXISTENTE);
+        }
+
 
     }
 
@@ -347,9 +419,7 @@ public class interfasEjercitoo extends javax.swing.JFrame{
     }
 
 
-
-
-    //declaracion de variables, nombre de los botones.
+        //declaracion de variables, nombre de los botones.
     private javax.swing.JButton ConfirmarElementos;
     private javax.swing.JButton NombreEjercito;
     public javax.swing.JTable Tablaa;
@@ -370,7 +440,7 @@ public class interfasEjercitoo extends javax.swing.JFrame{
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JLabel nombreEjercito;
+
     private javax.swing.JFormattedTextField totalElemt;
 
 

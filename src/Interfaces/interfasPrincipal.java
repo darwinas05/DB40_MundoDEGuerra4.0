@@ -102,8 +102,9 @@ private void paraSeleccionarActionPerformed(java.awt.event.ActionEvent evt){
         if (ExploradorFicheros.getRuta() == null) {
             JOptionPane.showMessageDialog(null, "No se ha cargado un general");
         } else {
-            new interfasEjercitoo();
-
+            interfasEjercitoo inte = new interfasEjercitoo();
+            inte.setVisible(true);
+            this.setVisible(false);
             dispose();
         }
     }
