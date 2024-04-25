@@ -21,7 +21,7 @@ import java.util.Vector;
 public class interfasEjercitoo extends javax.swing.JFrame {
 
     private static final Batalla batalla = new Batalla();
-    private static final Ejercito ejercito = new Ejercito();
+    private final Ejercito ejercito = new Ejercito();
     public JTable Tablaa;
     DefaultTableModel modelo = new DefaultTableModel();
     private Componentes componentes;
@@ -82,7 +82,7 @@ public class interfasEjercitoo extends javax.swing.JFrame {
 
     private void initComponents() {
 
-        botones = new javax.swing.JPanel();
+        botones = new JPanel();
         NombreEjercito = new javax.swing.JButton();
         infanteria = new javax.swing.JButton();
         caballeria = new javax.swing.JButton();
@@ -468,13 +468,13 @@ public class interfasEjercitoo extends javax.swing.JFrame {
     }
 
     private void comfirmarEjercitoActionPerformed(java.awt.event.ActionEvent evt) {
-        pack();
+
         if (Batalla.getEjercito1().getUnidades().isEmpty()) {
             Batalla.setEjercito1(ejercito);
             System.out.println("Primer ejército confirmado: " + ejercito);
 
             new interfasEjercitoo();
-            dispose();
+
 
         } else if (Batalla.getEjercito2().getUnidades().isEmpty()) {
             Batalla.setEjercito2(ejercito);
@@ -494,6 +494,8 @@ public class interfasEjercitoo extends javax.swing.JFrame {
         } else {
             JOptionPane.showMessageDialog(null, Message.EJERCITO_VACIO);
         }
+
+        dispose();
 
         try {
             GestorFichero.obtenerNombreGeneral(ExploradorFicheros.getRuta());
