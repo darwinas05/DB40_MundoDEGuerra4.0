@@ -29,7 +29,12 @@ public class interfasEjercitoo extends javax.swing.JFrame {
     DefaultTableModel modelo = new DefaultTableModel();
 
 
+
+
     public interfasEjercitoo() {
+        setVisible(true);
+        setDefaultCloseOperation(WindowConstants.HIDE_ON_CLOSE);
+
         initComponents();
 
         modelo.addColumn("Tipo");
@@ -311,14 +316,19 @@ public class interfasEjercitoo extends javax.swing.JFrame {
     private void comfirmarEjercitoActionPerformed(java.awt.event.ActionEvent evt) {
         if (batalla.getEjercito1().getUnidades().isEmpty()) {
             batalla.setEjercito1(ejercito);
-            System.out.println(ejercito);
+            System.out.println("Primer ejército confirmado: " + ejercito);
 
             new interfasEjercitoo();
-        } else if (batalla.getEjercito2().getUnidades().isEmpty()) {
-            batalla.setEjercito2(ejercito);
-            batalla.luchar();
+            dispose();
 
+        } else if (batalla.getEjercito2().getUnidades().isEmpty()) {
+            batalla.setEjercito2( ejercito);
+            System.out.println("Segundo ejército confirmado: " + ejercito);
+            //iniciamos la batalla.
+            batalla.luchar();
+            //Una ves iniciada abrimos la ventana de los resultados de la batalla.
             new interfasBatalla();
+
 
             try {
                 Thread.sleep(1000);
@@ -329,12 +339,13 @@ public class interfasEjercitoo extends javax.swing.JFrame {
         } else {
             JOptionPane.showMessageDialog(null, Message.EJERCITO_VACIO);
         }
-        dispose();
+
         try {
             GestorFichero.obtenerNombreGeneral(ExploradorFicheros.getRuta());
         } catch (IOException ex) {
             System.out.println(ex.getMessage());
         }
+
     }
     private void infanteriaActionPerformed(java.awt.event.ActionEvent evt){
         //if (batalla.getEjercito1().getUnidades().isEmpty()) {
@@ -403,9 +414,9 @@ public class interfasEjercitoo extends javax.swing.JFrame {
 
     private void btnGeneralActionPerformed(java.awt.event.ActionEvent evt) {
 
-        if (!ejercito.hayGeneral){
+        if (!ejercito.hayGeneral) {
             General general = new General();
-            if ((ejercito.getSaldoPeso() + general.PESO_GENERAL)<= ejercito.MAX_PESO){
+            if ((ejercito.getSaldoPeso() + general.PESO_GENERAL) <= ejercito.MAX_PESO) {
                 modelo.addRow(new Object[]{
                         general.getNombre(),
                         general.getID(),
@@ -416,12 +427,12 @@ public class interfasEjercitoo extends javax.swing.JFrame {
                 ejercito.hayGeneral = true;
                 ejercito.saldoPeso += general.PESO_GENERAL;
                 barra.setValue(ejercito.getSaldoPeso());
-            }else {
+            } else {
                 JOptionPane.showMessageDialog(this, Message.UNIDAD_SUPERA_PESO);
             }
-        }else{
+        } else {
 
-                JOptionPane.showMessageDialog(this, Message.GENERAL_EXISTENTE);
+            JOptionPane.showMessageDialog(this, Message.GENERAL_EXISTENTE);
         }
 
 
@@ -445,6 +456,7 @@ public class interfasEjercitoo extends javax.swing.JFrame {
         }
 
         totalElemt.setText("Total Ataque: " + totalAtaque + ", Total Defensa: " + totalDefensa + ", Total Salud: " + totalSalud);
+
 
     }
 

@@ -83,14 +83,10 @@ public class interfasPrincipal extends javax.swing.JFrame {
     }
 
 private void paraSeleccionarActionPerformed(java.awt.event.ActionEvent evt){
-    JFileChooser fileChooser = new JFileChooser();
     ExploradorFicheros.obtenerRuta();
 
-    fileChooser.setDialogTitle("Seleciona un fichero");//la ventana tendra este titulo.
-    fileChooser.setSelectedFile(new File("Generales.txt"));
-
     try {
-        GestorFichero.obtenerNombreGeneral(ExploradorFicheros.obtenerRuta());
+        GestorFichero.obtenerNombreGeneral(ExploradorFicheros.getRuta());
     } catch (IOException ex) {
         System.out.printf(ex.getMessage());
     }
@@ -103,7 +99,6 @@ private void paraSeleccionarActionPerformed(java.awt.event.ActionEvent evt){
             JOptionPane.showMessageDialog(null, "No se ha cargado un general");
         } else {
             interfasEjercitoo inte = new interfasEjercitoo();
-            inte.setVisible(true);
             this.setVisible(false);
             dispose();
         }
