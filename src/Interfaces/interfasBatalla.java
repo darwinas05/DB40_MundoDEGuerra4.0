@@ -106,7 +106,6 @@ public class interfasBatalla extends JFrame {
          * Método que añade los datos de las rondas de la batalla a la tabla
          */
         private void dataRonda() {
-
             for (Ronda ronda : interfasEjercitoo.getBatalla().getRondas()) {
                 Vector<Object> row = new Vector<>();
                 row.add(ronda.getNumRonda() + 1);

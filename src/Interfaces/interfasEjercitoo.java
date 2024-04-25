@@ -3,7 +3,7 @@ package Interfaces;
 import batallas.Batalla;
 import batallas.Ejercito;
 import batallas.Message;
-import componentes.*;
+import componentes.Componentes;
 import componentes.animales.Elefante;
 import componentes.animales.Tigre;
 import componentes.personas.Caballeria;
@@ -15,22 +15,43 @@ import controladores.GestorFichero;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.Vector;
 
 public class interfasEjercitoo extends javax.swing.JFrame {
 
     private static final Batalla batalla = new Batalla();
     private static final Ejercito ejercito = new Ejercito();
+    public JTable Tablaa;
+    DefaultTableModel modelo = new DefaultTableModel();
     private Componentes componentes;
-
     private Timer timer;
     private General general;
     private Elefante elefante;
     private Tigre trigre;
-    DefaultTableModel modelo = new DefaultTableModel();
-
-
-
-
+    //declaracion de variables, nombre de los botones.
+    private JButton ConfirmarElementos;
+    private JButton NombreEjercito;
+    private JProgressBar barra;
+    //para mas :
+    private JPanel botones;
+    private JButton btnElefante;
+    private JButton btnEliminar;
+    private JButton btnGeneral;
+    private JButton btnTigre;
+    private JButton caballeria;
+    private JButton comfirmarEjercito;
+    private JButton infanteria;
+    private JLabel jLabel1;
+    private JLabel jLabel2;
+    private JLabel jLabel3;
+    private JPanel jPanel2;
+    private JPanel jPanel3;
+    private JPanel jPanel4;
+    private JScrollPane jScrollPane1;
+    private JFormattedTextField totalElemt;
+    private JTextField mostrarBD;
+    private Vector<Vector<Object>>elementEjercito;
     public interfasEjercitoo() {
         setVisible(true);
         setDefaultCloseOperation(WindowConstants.HIDE_ON_CLOSE);
@@ -194,6 +215,7 @@ public class interfasEjercitoo extends javax.swing.JFrame {
 
         barra.setMaximum(50);
 
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -299,7 +321,6 @@ public class interfasEjercitoo extends javax.swing.JFrame {
         pack();
     }
 
-
     private void NombreEjercitoActionPerformed(java.awt.event.ActionEvent evt) {
 
         // Agregamos un icono al JOptionPane, el mensaje a mostrar y el titulo de la ventana.
@@ -313,16 +334,150 @@ public class interfasEjercitoo extends javax.swing.JFrame {
 
     }
 
+    private void infanteriaActionPerformed(java.awt.event.ActionEvent evt) {
+        //if (batalla.getEjercito1().getUnidades().isEmpty()) {
+        Infanteria infanteria = new Infanteria();
+        if ((ejercito.getSaldoPeso() + Infanteria.PESO_INFANTERIA) <= Ejercito.MAX_PESO) {
+
+            modelo.addRow(new Object[]{
+                    "Infanteria",
+                    Componentes.getID(),
+                    infanteria.getAtaque(),
+                    infanteria.getDefensa(),
+                    infanteria.getSalud(),
+
+            });
+            ejercito.adicionarUnidad(infanteria);// añadimos este elemento al ejercito.
+            ejercito.saldoPeso += Infanteria.PESO_INFANTERIA;
+
+        } barra.setString(ejercito.getSaldoPeso() + "/" + Ejercito.getMaxPeso());
+        barra.setValue(ejercito.getSaldoPeso());
+
+
+    }
+
+    private void caballeriaActionPerformed(java.awt.event.ActionEvent evt) {
+        Caballeria caballeria = new Caballeria();
+        if ((ejercito.getSaldoPeso() + Caballeria.PESO_CABALLERIA) <= Ejercito.MAX_PESO) {
+            barra.setValue(ejercito.getSaldoPeso());
+            modelo.addRow(new Object[]{
+                    "Caballeria",
+                    Componentes.getID(),
+                    caballeria.getAtaque(),
+                    caballeria.getDefensa(),
+                    caballeria.getSalud(),
+
+            });
+            ejercito.adicionarUnidad(caballeria);// añadimos este elemento al ejercito.
+            ejercito.saldoPeso += Caballeria.PESO_CABALLERIA;
+
+        } barra.setString(ejercito.getSaldoPeso() + "/" + Ejercito.getMaxPeso());
+        barra.setValue(ejercito.getSaldoPeso());
+
+    }
+
+    private void btnElefanteActionPerformed(java.awt.event.ActionEvent evt) {
+        Elefante elefante = new Elefante();
+        if ((ejercito.getSaldoPeso() + Elefante.PESO_ELEFANTE) <= Ejercito.MAX_PESO) {
+
+            modelo.addRow(new Object[]{
+                    "Elefante",
+                    Componentes.getID(),
+                    elefante.getAtaque(),
+                    elefante.getDefensa(),
+                    elefante.getSalud(),
+
+            });
+            ejercito.adicionarUnidad(elefante);// añadimos este elemento al ejercito.
+            ejercito.saldoPeso += Elefante.PESO_ELEFANTE;
+
+        } barra.setString(ejercito.getSaldoPeso() + "/" + Ejercito.getMaxPeso());
+        barra.setValue(ejercito.getSaldoPeso());
+
+    }
+
+    private void btnTigreActionPerformed(java.awt.event.ActionEvent evt) {
+        Tigre tigre = new Tigre();
+        if ((ejercito.getSaldoPeso() + Tigre.PESO_TIGRE) <= Ejercito.MAX_PESO) {
+
+            modelo.addRow(new Object[]{
+                    "Tigre",
+                    Componentes.getID(),
+                    tigre.getAtaque(),
+                    tigre.getDefensa(),
+                    tigre.getSalud(),
+
+            });
+            ejercito.adicionarUnidad(tigre);// añadimos este elemento al ejercito.
+            ejercito.saldoPeso += Tigre.PESO_TIGRE;
+
+        } barra.setString(ejercito.getSaldoPeso() + "/" + Ejercito.getMaxPeso());
+        barra.setValue(ejercito.getSaldoPeso());
+    }
+
+    private void btnGeneralActionPerformed(java.awt.event.ActionEvent evt) {
+
+        if (!ejercito.hayGeneral) {
+            General general = new General();
+            if ((ejercito.getSaldoPeso() + General.PESO_GENERAL) <= Ejercito.MAX_PESO) {
+                modelo.addRow(new Object[]{
+                        general.getNombre(),
+                        Componentes.getID(),
+                        general.getAtaque(),
+                        general.getDefensa(),
+                        general.getSalud()
+                });
+                ejercito.adicionarUnidad(general);// añadimos este elemento al ejercito.
+                ejercito.hayGeneral = true;
+                ejercito.saldoPeso += General.PESO_GENERAL;
+
+            } else {
+                JOptionPane.showMessageDialog(this, Message.UNIDAD_SUPERA_PESO);
+            }
+        } else {
+
+            JOptionPane.showMessageDialog(this, Message.GENERAL_EXISTENTE);
+        }
+        barra.setString(ejercito.getSaldoPeso() + "/" + Ejercito.getMaxPeso());
+        barra.setValue(ejercito.getSaldoPeso());
+
+
+    }
+
+    private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {
+
+
+    }
+
+    private void ConfirmarElementosActionPerformed(java.awt.event.ActionEvent evt) {
+        int totalFilas = modelo.getRowCount();
+        int totalAtaque = 0;
+        int totalDefensa = 0;
+        int totalSalud = 0;
+
+        for (int i = 0; i < totalFilas; i++) {
+            totalAtaque += (int) modelo.getValueAt(i, 2);
+            totalDefensa += (int) modelo.getValueAt(i, 3);
+            totalSalud += (int) modelo.getValueAt(i, 4);
+        }
+
+
+        totalElemt.setText("Total Ataque: " + totalAtaque + ", Total Defensa: " + totalDefensa + ", Total Salud: " + totalSalud);
+
+
+    }
+
     private void comfirmarEjercitoActionPerformed(java.awt.event.ActionEvent evt) {
-        if (batalla.getEjercito1().getUnidades().isEmpty()) {
-            batalla.setEjercito1(ejercito);
+        pack();
+        if (Batalla.getEjercito1().getUnidades().isEmpty()) {
+            Batalla.setEjercito1(ejercito);
             System.out.println("Primer ejército confirmado: " + ejercito);
 
             new interfasEjercitoo();
             dispose();
 
-        } else if (batalla.getEjercito2().getUnidades().isEmpty()) {
-            batalla.setEjercito2( ejercito);
+        } else if (Batalla.getEjercito2().getUnidades().isEmpty()) {
+            Batalla.setEjercito2(ejercito);
             System.out.println("Segundo ejército confirmado: " + ejercito);
             //iniciamos la batalla.
             batalla.luchar();
@@ -347,146 +502,24 @@ public class interfasEjercitoo extends javax.swing.JFrame {
         }
 
     }
-    private void infanteriaActionPerformed(java.awt.event.ActionEvent evt){
-        //if (batalla.getEjercito1().getUnidades().isEmpty()) {
-        Infanteria infanteria = new Infanteria();
-        if((ejercito.getSaldoPeso() + infanteria.PESO_INFANTERIA) <= ejercito.MAX_PESO){
+    private void getAboutUnit(){
+        elementEjercito.clear();
 
-            modelo.addRow(new Object[]{
-                    "Infanteria",
-                    infanteria.getID(),
-                    infanteria.getAtaque(),
-                    infanteria.getDefensa(),
-                    infanteria.getSalud(),
-
-            });
-            ejercito.saldoPeso += infanteria.PESO_INFANTERIA;
-        } barra.setValue(ejercito.getSaldoPeso());
-
-    }
-
-    private void caballeriaActionPerformed(java.awt.event.ActionEvent evt) {
-        Caballeria caballeria = new Caballeria();
-        if((ejercito.getSaldoPeso() + caballeria.PESO_CABALLERIA) <= ejercito.MAX_PESO){
-
-            modelo.addRow(new Object[]{
-                    "Caballeria",
-                    caballeria.getID(),
-                    caballeria.getAtaque(),
-                    caballeria.getDefensa(),
-                    caballeria.getSalud(),
-
-            });
-            ejercito.saldoPeso += Caballeria.PESO_CABALLERIA;
-        } barra.setValue(ejercito.getSaldoPeso());
-    }
-    private void btnElefanteActionPerformed(java.awt.event.ActionEvent evt) {
-        Elefante elefante = new Elefante();
-        if((ejercito.getSaldoPeso() + elefante.PESO_ELEFANTE) <= ejercito.MAX_PESO){
-
-            modelo.addRow(new Object[]{
-                    "Elefante",
-                    elefante.getID(),
-                    elefante.getAtaque(),
-                    elefante.getDefensa(),
-                    elefante.getSalud(),
-
-            });
-            ejercito.saldoPeso += Elefante.PESO_ELEFANTE;
-        } barra.setValue(ejercito.getSaldoPeso());
-    }
-
-    private void btnTigreActionPerformed(java.awt.event.ActionEvent evt) {
-        Tigre tigre = new Tigre();
-        if((ejercito.getSaldoPeso() + tigre.PESO_TIGRE) <= ejercito.MAX_PESO){
-
-            modelo.addRow(new Object[]{
-                    "Tigre",
-                    tigre.getID(),
-                    tigre.getAtaque(),
-                    tigre.getDefensa(),
-                    tigre.getSalud(),
-
-            });
-            ejercito.saldoPeso += tigre.PESO_TIGRE;
-        } barra.setValue(ejercito.getSaldoPeso());
-    }
-
-    private void btnGeneralActionPerformed(java.awt.event.ActionEvent evt) {
-
-        if (!ejercito.hayGeneral) {
-            General general = new General();
-            if ((ejercito.getSaldoPeso() + general.PESO_GENERAL) <= ejercito.MAX_PESO) {
-                modelo.addRow(new Object[]{
-                        general.getNombre(),
-                        general.getID(),
-                        general.getAtaque(),
-                        general.getDefensa(),
-                        general.getSalud()
-                });
-                ejercito.hayGeneral = true;
-                ejercito.saldoPeso += general.PESO_GENERAL;
-                barra.setValue(ejercito.getSaldoPeso());
-            } else {
-                JOptionPane.showMessageDialog(this, Message.UNIDAD_SUPERA_PESO);
-            }
-        } else {
-
-            JOptionPane.showMessageDialog(this, Message.GENERAL_EXISTENTE);
+        for (Componentes componente : ejercito.getUnidades()){
+            elementEjercito.add(new Vector<>(Arrays.asList(
+                componente.getNombre(),
+                componente.getClass().getSimpleName(),
+                componente.getAtaque(),
+                componente.getDefensa(),
+                componente.getSalud()
+            )));
         }
 
 
     }
-
-    private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {
-
-
-    }
-
-    private void ConfirmarElementosActionPerformed(java.awt.event.ActionEvent evt) {
-        int totalFilas = modelo.getRowCount();
-        int totalAtaque = 0;
-        int totalDefensa = 0;
-        int totalSalud = 0;
-
-        for (int i = 0; i < totalFilas; i++) {
-            totalAtaque += (int) modelo.getValueAt(i, 2);
-            totalDefensa += (int) modelo.getValueAt(i, 3);
-            totalSalud += (int) modelo.getValueAt(i, 4);
-        }
-
-        totalElemt.setText("Total Ataque: " + totalAtaque + ", Total Defensa: " + totalDefensa + ", Total Salud: " + totalSalud);
-
-
-    }
-
-
-        //declaracion de variables, nombre de los botones.
-    private JButton ConfirmarElementos;
-    private JButton NombreEjercito;
-    public JTable Tablaa;
-    private JProgressBar barra;
-    //para mas :
-    private JPanel botones;
-    private JButton btnElefante;
-    private JButton btnEliminar;
-    private JButton btnGeneral;
-    private JButton btnTigre;
-    private JButton caballeria;
-    private JButton comfirmarEjercito;
-    private JButton infanteria;
-    private JLabel jLabel1;
-    private JLabel jLabel2;
-    private JLabel jLabel3;
-    private JPanel jPanel2;
-    private JPanel jPanel3;
-    private JPanel jPanel4;
-    private JScrollPane jScrollPane1;
-
-    private JFormattedTextField totalElemt;
 
     public static Batalla getBatalla(){
         return batalla;
     }
-
 }
+//

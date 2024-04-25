@@ -299,9 +299,10 @@ public class Ejercito {
         ataque = 0;
         defensa = 0;
         salud = 0;
+
     }
 
-    private void adicionarUnidad(Componentes componentes) {
+    public void adicionarUnidad(Componentes componentes) {
         if (saldoPeso == MAX_PESO - 1 && !hayGeneral) {
             JOptionPane.showMessageDialog(null, "Falta un general. Se agrego un general " +
                     "por defecto al ejercito en la unidad reservada.");
@@ -350,7 +351,7 @@ public class Ejercito {
         }
     }
 
-    private void informacionEjercito() {
+    public void informacionEjercito() {
         for (Componentes unidad : unidades) {
             System.out.println(unidad);
         }

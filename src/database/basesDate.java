@@ -1,11 +1,16 @@
 package database;
 
-import java.sql.*;
+import componentes.personas.General;
+
 import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.Calendar;
 import java.util.TimeZone;
-import componentes.personas.General;
 public class basesDate {
+
+
 
 private static General general = new General();
         public static Connection conectarBD(String BD) throws SQLException {
@@ -34,8 +39,10 @@ private static General general = new General();
 
 
         }
+
+    //metodo para agregar datos a las columnas de la tabla de mi base de datos.
     public static void intoTable() {
-        String sentencia = "INSERT INTO generales(Nombre, Ataque, Defensa, Salud, Peso) VALUES (?, ?, ?, ?, ?)";
+        String sentencia = "INSERT INTO generales(Nombre, Ataque, Defensa, Salud, Peso) VALUES (?,?,?,?,?)";
         try (Connection connection = conectarBD("NOMBRE DE TU BASE DE DATOS");
              PreparedStatement stmt = connection.prepareStatement(sentencia)) {
             // Asignar valores de los atributos de la instancia de General a los marcadores de posición
