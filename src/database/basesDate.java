@@ -39,18 +39,20 @@ private static General general = new General();
         }
 
     //metodo para agregar datos a las columnas de la tabla de mi base de datos.
-    public static void intoTable() {
-        int filas_afectadas = -1;
-        String sentencia = "INSERT INTO generales(Nombre, Ataque, Defensa, Salud, Peso) VALUES ('" + general.getNombre() + ',' + general.getAtaque() + ',' + general.getDefensa() + ',' + general.getSalud() + ')";
-
-        try{
-            Statement stmt = connection.createStatement() ;
-            filas_afectadas = stmt.executeUpdate(sentencia);
-            System.out.println(filas_afectadas + "filas(s) insertadas(s).");
-        }catch (SQLException ex){
-            System.out.println("Error: " + ex.getMessage());
-        }
-    }
+//    public static void intoTable() {
+//
+//
+//        int filas_afectadas = -1;
+//        String sentencia = "INSERT INTO generales(Nombre, Ataque, Defensa, Salud, Peso) VALUES (" + general.getNombre() + "', " + general.getAtaque() + "," + general.getDefensa() + "," + general.getSalud() + ");";
+//
+//        try{
+//           Statement stmt =  connection.createStatement() ;
+//            filas_afectadas = stmt.executeUpdate(sentencia);
+//            System.out.println(filas_afectadas + "filas(s) insertadas(s).");
+//        }catch (SQLException ex){
+//            System.out.println("Error: " + ex.getMessage());
+//        }
+//    }
 
 
     // Ejecutar la sentencia y obtener el número de filas afectadas

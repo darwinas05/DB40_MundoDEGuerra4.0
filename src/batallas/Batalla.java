@@ -34,7 +34,7 @@ public class Batalla {
         Ejercito atacante;
         Ejercito defensor;
 
-        int resAtacante = random.nextInt(1, 3);
+        int resAtacante = random.nextInt(1, 5);
         if (resAtacante == 1) {
             atacante = ejercito1;
             defensor = ejercito2;
