@@ -34,7 +34,7 @@ public class Batalla {
         Ejercito atacante;
         Ejercito defensor;
 
-        int resAtacante = random.nextInt(1, 5);
+        int resAtacante = random.nextInt(1, 3);
         if (resAtacante == 1) {
             atacante = ejercito1;
             defensor = ejercito2;
@@ -47,8 +47,8 @@ public class Batalla {
             for (numRondas = 0; numRondas < MAX_RONDAS; numRondas++) {
                 rondas.add(new Ronda(numRondas, atacante, defensor));
                 int resultado = rondas.getLast().getResultado();
-                if (resultado > 0) {
-                    atacante.recibirDano(resultado);
+                if (resultado < 0) {
+                    atacante.recibirDano(Math.abs(resultado));
                 } else {
                     defensor.recibirDano(Math.abs(resultado));
                 }

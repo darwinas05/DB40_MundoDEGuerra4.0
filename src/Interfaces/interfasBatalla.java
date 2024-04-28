@@ -23,10 +23,12 @@ public class interfasBatalla extends JFrame {
         batallaModel.addColumn("Ataque");
         batallaModel.addColumn("Defensa");
         batallaModel.addColumn("Resultado");
+        batallaModel.addRow(data);
+
         infoBatalla();
 
-      this.BatallaTable.setModel( batallaModel);
-        jTextField1.setText(interfasEjercitoo.getBatalla().getGanador().getNombre());
+      this.BatallaTable.setModel(batallaModel);
+
     }
 
     private void initComponents(){
@@ -173,7 +175,7 @@ public class interfasBatalla extends JFrame {
     }
 
     private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {
-
+        jTextField1.setText(interfasEjercitoo.getBatalla().getGanador().getNombre());
     }
 
     private void XMLActionPerformed(java.awt.event.ActionEvent evt) {
@@ -185,6 +187,7 @@ public class interfasBatalla extends JFrame {
         //para regresar a la ventana de los archivos.
         //fileChooserHandler.showFileChooser();
     }
+
 
     private void infoBatalla(){
         for (Ronda ronda : interfasEjercitoo.getBatalla().getRondas()){

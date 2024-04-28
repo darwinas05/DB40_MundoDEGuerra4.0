@@ -2,10 +2,13 @@ package database;
 
 import componentes.personas.General;
 
+
 import java.sql.*;
 import java.sql.Connection;
 import java.util.Calendar;
 import java.util.TimeZone;
+import static Interfaces.interfasPrincipal.mostrarBD;
+
 public class basesDate {
 
 
@@ -19,6 +22,8 @@ private static General general = new General();
             String HOST = "localhost:3306";
             boolean connectionOK = true;
 
+
+
             Calendar ahora = Calendar.getInstance();
             TimeZone zonahorario = ahora.getTimeZone();
 
@@ -26,9 +31,11 @@ private static General general = new General();
                 Class.forName("com.mysql.cj.jdbc.Driver");
                 connection = (Connection) DriverManager.getConnection(
                         "jdbc:mysql://" + HOST + "/" + BD, USUARIO, PASS);
-                System.out.println("Conección satisfactoria");
+                mostrarBD.setText("Conección satisfactoria");
+                System.out.println("Conexión satisfactoria");
             } catch (Exception exception) {
                 connectionOK = false;
+                mostrarBD.setText("Conexión fallida.");
                 System.out.println(exception.getMessage());
             } finally {
                 System.out.print(connectionOK);

@@ -7,6 +7,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.io.File;
 import java.io.IOException;
+import database.basesDate;
 
 public class interfasPrincipal extends javax.swing.JFrame {
 
@@ -22,6 +23,8 @@ public class interfasPrincipal extends javax.swing.JFrame {
         paraSeleccionar = new javax.swing.JButton();
         luchar = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
+        mostrarBD = new javax.swing.JLabel();
+
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new java.awt.GridBagLayout());
@@ -48,6 +51,11 @@ public class interfasPrincipal extends javax.swing.JFrame {
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setText("Bienvenido al mundo de guerra");
 
+
+        mostrarBD.setForeground(new java.awt.Color(255,255,255));
+        mostrarBD.setBackground(new java.awt.Color(204,204,204));
+
+
         javax.swing.GroupLayout primeraLayout = new javax.swing.GroupLayout(primera);
         primera.setLayout(primeraLayout);
         primeraLayout.setHorizontalGroup(
@@ -63,7 +71,10 @@ public class interfasPrincipal extends javax.swing.JFrame {
                                         .addGroup(primeraLayout.createSequentialGroup()
                                                 .addGap(175, 175, 175)
                                                 .addComponent(paraSeleccionar)))
-                                .addGap(128, 128, 128))
+                                .addGroup(primeraLayout.createSequentialGroup()
+                                        .addGap(39 , 39, 39)
+                                        .addComponent(mostrarBD, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addGap(128, 128, 128)
         );
         primeraLayout.setVerticalGroup(
                 primeraLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -75,6 +86,7 @@ public class interfasPrincipal extends javax.swing.JFrame {
                                 .addGap(56, 56, 56)
                                 .addComponent(paraSeleccionar)
                                 .addGap(66, 66, 66))
+                                .addComponent(mostrarBD, javax.swing.GroupLayout.PREFERRED_SIZE,26, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
         getContentPane().add(primera, new java.awt.GridBagConstraints());
@@ -87,6 +99,10 @@ private void paraSeleccionarActionPerformed(java.awt.event.ActionEvent evt){
 
     try {
         GestorFichero.obtenerNombreGeneral(ExploradorFicheros.getRuta());
+
+//aqui va lo de la base de datos.
+
+
     } catch (IOException ex) {
         System.out.printf(ex.getMessage());
     }
@@ -103,11 +119,19 @@ private void paraSeleccionarActionPerformed(java.awt.event.ActionEvent evt){
             dispose();
         }
     }
+
+    private void mostrarBDActionPerformed(java.awt.event.ActionEvent evt) {
+
+    }
+
     // Variables declaration - do not modify
     private javax.swing.JLabel jLabel1;
     private javax.swing.JButton luchar;
     private javax.swing.JButton paraSeleccionar;
     private javax.swing.JPanel primera;
+    public static javax.swing.JLabel mostrarBD;
+
+
     class fondoPanel extends JPanel{
         private Image imagen;
 
