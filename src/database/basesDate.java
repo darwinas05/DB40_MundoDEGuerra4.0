@@ -17,24 +17,21 @@ import static Interfaces.interfasPrincipal.mostrarBD;
 
 public class basesDate {
 
-
+    private static String USUARIO = "root";
+    private static String PASS = "";
+    private static String HOST = "localhost:3306";
     private static General general = new General();
+    public static Connection conn = null;
+   private static boolean connectionOK = true;
 
     public static Connection conectarBD(String BD) throws SQLException {
-
-        Connection connection = null;
-        String USUARIO = "root";
-        String PASS = "";
-        String HOST = "localhost:3306";
-        boolean connectionOK = true;
-
 
         Calendar ahora = Calendar.getInstance();
         TimeZone zonahorario = ahora.getTimeZone();
 
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
-            connection = (Connection) DriverManager.getConnection(
+            conn = (Connection) DriverManager.getConnection(
                     "jdbc:mysql://" + HOST + "/" + BD, USUARIO, PASS);
             mostrarBD.setText("Conección satisfactoria");
             System.out.println("Conexión satisfactoria");
@@ -46,10 +43,22 @@ public class basesDate {
             System.out.println(exception.getMessage());
         } finally {
             System.out.print(connectionOK);
-            return connection;
+            return conn;
         }
 
 
+    }public Connection getConnection(){
+        return conn;
+    }
+
+    //Metodo para desconectar la bases de datos.
+    public void desconectar(){
+        try{
+            conn.close();
+            conn = null;
+        }catch(SQLException e){
+           e.printStackTrace();
+        }
     }
 
     // metodo para agregar datos a las columnas de la tabla de mi base de datos.
