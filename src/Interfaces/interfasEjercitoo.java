@@ -15,8 +15,12 @@ import controladores.GestorFichero;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.io.IOException;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.util.Arrays;
 import java.util.Vector;
+import static database.basesDate.conectarBD;
 
 public class interfasEjercitoo extends javax.swing.JFrame {
 
@@ -37,7 +41,7 @@ public class interfasEjercitoo extends javax.swing.JFrame {
     private JPanel botones;
     private JButton btnElefante;
     private JButton btnEliminar;
-    private JButton btnGeneral;
+    private JComboBox<String> btnGeneral;
     private JButton btnTigre;
     private JButton caballeria;
     private JButton comfirmarEjercito;
@@ -80,13 +84,31 @@ public class interfasEjercitoo extends javax.swing.JFrame {
         return img;
     }
 
+    public void llenarComboBox(JComboBox<String> btnGeneral){
+        try{
+            Connection connection = conectarBD("waw");
+            String query = "Select nombre from generales";
+
+            PreparedStatement pst = connection.prepareStatement(query);
+            ResultSet result = pst.executeQuery();
+
+            while (result.next()){
+                btnGeneral.addItem(result.getString("Nombre"));
+            }
+            connection.close();
+        }catch(Exception e){
+            e.printStackTrace();
+
+        }
+    }
+
     private void initComponents() {
 
         botones = new JPanel();
         NombreEjercito = new javax.swing.JButton();
         infanteria = new javax.swing.JButton();
         caballeria = new javax.swing.JButton();
-        btnGeneral = new javax.swing.JButton();
+        btnGeneral = new javax.swing.JComboBox<>();
         btnElefante = new javax.swing.JButton();
         btnTigre = new javax.swing.JButton();
         btnEliminar = new javax.swing.JButton();
@@ -129,7 +151,7 @@ public class interfasEjercitoo extends javax.swing.JFrame {
             }
         });
 
-        btnGeneral.setText("Añadir General");
+        btnGeneral.setModel(new javax.swing.DefaultComboBoxModel<>(new String[]{}));
         btnGeneral.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnGeneralActionPerformed(evt);
@@ -175,7 +197,7 @@ public class interfasEjercitoo extends javax.swing.JFrame {
                                         .addComponent(NombreEjercito)
                                         .addGroup(botonesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                                                 .addComponent(btnElefante, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                                .addComponent(btnGeneral, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                                .addComponent(btnGeneral, GroupLayout.Alignment.TRAILING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                                 .addComponent(caballeria, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                                 .addComponent(btnTigre, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                                         .addComponent(btnEliminar)
@@ -193,8 +215,8 @@ public class interfasEjercitoo extends javax.swing.JFrame {
                                 .addGap(18, 18, 18)
                                 .addComponent(caballeria)
                                 .addGap(20, 20, 20)
-                                .addComponent(btnGeneral)
-                                .addGap(18, 18, 18)
+                                .addComponent(btnGeneral, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(21, 21, 21)
                                 .addComponent(btnElefante)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 31, Short.MAX_VALUE)
                                 .addComponent(btnTigre)
@@ -396,6 +418,10 @@ public class interfasEjercitoo extends javax.swing.JFrame {
 
     }
 
+    /**
+     * Boton para agregar tigres a la tabla
+     * @param evt
+     */
     private void btnTigreActionPerformed(java.awt.event.ActionEvent evt) {
         Tigre tigre = new Tigre();
         if ((ejercito.getSaldoPeso() + Tigre.PESO_TIGRE) <= Ejercito.MAX_PESO) {
@@ -414,7 +440,10 @@ public class interfasEjercitoo extends javax.swing.JFrame {
         } barra.setString(ejercito.getSaldoPeso() + "/" + Ejercito.getMaxPeso());
         barra.setValue(ejercito.getSaldoPeso());
     }
-
+    /**
+     * Boton para agregar generales a la tabla
+     * @param evt
+     */
     private void btnGeneralActionPerformed(java.awt.event.ActionEvent evt) {
 
         if (!ejercito.hayGeneral) {
@@ -449,6 +478,11 @@ public class interfasEjercitoo extends javax.swing.JFrame {
 
     }
 
+    /**
+     * Con este boton confirmamos todos los elementos de al tabla para
+     * calcular el total de la salud, peso y defensa.
+     * @param evt
+     */
     private void ConfirmarElementosActionPerformed(java.awt.event.ActionEvent evt) {
         int totalFilas = modelo.getRowCount();
         int totalAtaque = 0;
@@ -467,6 +501,13 @@ public class interfasEjercitoo extends javax.swing.JFrame {
 
     }
 
+
+    /**
+     * Con este boton confirmamos el ejercito y lo guardamos en el ejercito uno
+     * para posteriomente crear el segundo ejército y pasar a la table batalla
+     * en la  cual vemos los resultados de la batalla.
+     * @param evt
+     */
     private void comfirmarEjercitoActionPerformed(java.awt.event.ActionEvent evt) {
 
         if (Batalla.getEjercito1().getUnidades().isEmpty()) {

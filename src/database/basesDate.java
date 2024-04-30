@@ -1,69 +1,104 @@
 package database;
 
 import componentes.personas.General;
+import controladores.GestorFichero;
 
 
+import java.io.IOException;
 import java.sql.*;
 import java.sql.Connection;
 import java.util.Calendar;
+import java.util.List;
 import java.util.TimeZone;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import static controladores.GestorFichero.obtenerNombreGeneral;
 import static Interfaces.interfasPrincipal.mostrarBD;
 
 public class basesDate {
 
 
+    private static General general = new General();
 
-private static General general = new General();
-        public static Connection conectarBD(String BD) throws SQLException {
+    public static Connection conectarBD(String BD) throws SQLException {
 
-            Connection connection = null;
-            String USUARIO = "root";
-            String PASS = "";
-            String HOST = "localhost:3306";
-            boolean connectionOK = true;
-
-
-
-            Calendar ahora = Calendar.getInstance();
-            TimeZone zonahorario = ahora.getTimeZone();
-
-            try {
-                Class.forName("com.mysql.cj.jdbc.Driver");
-                connection = (Connection) DriverManager.getConnection(
-                        "jdbc:mysql://" + HOST + "/" + BD, USUARIO, PASS);
-                mostrarBD.setText("Conección satisfactoria");
-                System.out.println("Conexión satisfactoria");
-            } catch (Exception exception) {
-                connectionOK = false;
-                mostrarBD.setText("Conexión fallida.");
-                System.out.println(exception.getMessage());
-            } finally {
-                System.out.print(connectionOK);
-                return connection;
-            }
+        Connection connection = null;
+        String USUARIO = "root";
+        String PASS = "";
+        String HOST = "localhost:3306";
+        boolean connectionOK = true;
 
 
+        Calendar ahora = Calendar.getInstance();
+        TimeZone zonahorario = ahora.getTimeZone();
+
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            connection = (Connection) DriverManager.getConnection(
+                    "jdbc:mysql://" + HOST + "/" + BD, USUARIO, PASS);
+            mostrarBD.setText("Conección satisfactoria");
+            System.out.println("Conexión satisfactoria");
+
+
+        } catch (Exception exception) {
+            connectionOK = false;
+            mostrarBD.setText("Conexión fallida.");
+            System.out.println(exception.getMessage());
+        } finally {
+            System.out.print(connectionOK);
+            return connection;
         }
 
-    //metodo para agregar datos a las columnas de la tabla de mi base de datos.
-//    public static void intoTable() {
+
+    }
+
+    // metodo para agregar datos a las columnas de la tabla de mi base de datos.
+//    public static void intoTable(Connection connection, String rutaFichero) {
 //
-//
-//        int filas_afectadas = -1;
-//        String sentencia = "INSERT INTO generales(Nombre, Ataque, Defensa, Salud, Peso) VALUES (" + general.getNombre() + "', " + general.getAtaque() + "," + general.getDefensa() + "," + general.getSalud() + ");";
-//
-//        try{
-//           Statement stmt =  connection.createStatement() ;
-//            filas_afectadas = stmt.executeUpdate(sentencia);
-//            System.out.println(filas_afectadas + "filas(s) insertadas(s).");
-//        }catch (SQLException ex){
-//            System.out.println("Error: " + ex.getMessage());
+//        List<String> nameOfGenerales = null;
+//        try {
+//            nameOfGenerales = GestorFichero.obtenerNombreGeneral(rutaFichero);
+//        } catch (IOException e) {
+//            Logger.getLogger(basesDate.class.getName()).log(Level.SEVERE,null,e);
 //        }
+//        for(String nombre : nameOfGenerales) {
+//            int Ataque = Atributos();
+//            int Defensa = Atributos();
+//            int Salud = Atributos();
+//            int Peso = General.PESO_GENERAL;
+//
+//            agregarGeneral(connection, nombre,Ataque,Defensa,Salud,Peso);
+//        }
+//
 //    }
 
 
-    // Ejecutar la sentencia y obtener el número de filas afectadas
+    /**
+     * Metodo para botener los atriburos randon de los
+     * generales.
+     * @return int random
+     */
+    private static int Atributos(){
+        return (int) (Math.random() * 100);
+    }
+    public static void agregarGeneral(Connection connection, String nombre, int ataque, int defensa, int salud, int peso){
+
+        int filas_afectadas = -1;
+        String sentencia = "INSERT INTO generales(Nombre, Ataque, Defensa, Salud, Peso) VALUES (" + general.getNombre() + "', " + general.getAtaque() +
+                "," + general.getDefensa() + "," + general.getSalud() + ");";
+
+
+        try{
+            Statement stmt =  connection.createStatement() ;
+            filas_afectadas = stmt.executeUpdate(sentencia);
+            System.out.println(filas_afectadas + "filas(s) insertadas(s).");
+        }catch (SQLException ex){
+            System.out.println("Error con la insercion de los generales: " + ex.getMessage());
+        }
+    }
+
 
     }
+
 
 

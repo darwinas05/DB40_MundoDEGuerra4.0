@@ -1,5 +1,7 @@
 package Interfaces;
 
+import  Interfaces.interfasEjercitoo;
+import componentes.personas.General;
 import controladores.ExploradorFicheros;
 import controladores.GestorFichero;
 
@@ -7,10 +9,14 @@ import javax.swing.*;
 import java.awt.*;
 import java.io.File;
 import java.io.IOException;
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.sql.Statement;
+
 import database.basesDate;
 
 public class interfasPrincipal extends javax.swing.JFrame {
-
+    private static General general = new General();
     fondoPanel fondo = new fondoPanel();
 
     public interfasPrincipal(){
@@ -95,16 +101,29 @@ public class interfasPrincipal extends javax.swing.JFrame {
     }
 
 private void paraSeleccionarActionPerformed(java.awt.event.ActionEvent evt){
-    ExploradorFicheros.obtenerRuta();
+        ExploradorFicheros.obtenerRuta();
 
     try {
+//
+//        Connection connection = basesDate.conectarBD("waw");
+//        basesDate.
         GestorFichero.obtenerNombreGeneral(ExploradorFicheros.getRuta());
-
-//aqui va lo de la base de datos.
-
 
     } catch (IOException ex) {
         System.out.printf(ex.getMessage());
+
+        int filas_afectadas = -1;
+        String sentencia = "INSERT INTO generales(Nombre, Ataque, Defensa, Salud, Peso) VALUES ("+ general.getNombre() + ',' + general.getAtaque() + ","
+                + general.getDefensa() + "," + general.getSalud() + ")";
+        try{
+            Connection connection = null;
+            Statement stmt =  connection.createStatement() ;
+            filas_afectadas = stmt.executeUpdate(sentencia);
+            System.out.println(filas_afectadas + "filas(s) insertadas(s).");
+
+        }catch (SQLException e){
+            System.out.println("Error: " + ex.getMessage());
+        }
     }
 
 }

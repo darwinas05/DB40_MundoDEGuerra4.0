@@ -13,7 +13,7 @@ public class GestorFichero {
     private static final Random random = new Random();
     private String rutaFichero;
     private BufferedReader br;
-    private List<String> nombreGeneral;
+    public List<String> nombreGeneral;
     private static String nombreDeGeneral;
 
     public GestorFichero() {
