@@ -2,11 +2,10 @@ package database;
 
 import componentes.personas.General;
 import controladores.GestorFichero;
-
-
 import java.io.IOException;
 import java.sql.*;
 import java.sql.Connection;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.TimeZone;
@@ -17,16 +16,15 @@ import static Interfaces.interfasPrincipal.mostrarBD;
 
 public class basesDate {
 
-
-    private static General general = new General();
+    private  General general = new General();
+    private static String USUARIO = "root";
+    private static String PASS = "";
+    private static String HOST = "localhost:3306";
+    private static boolean connectionOK = true;
+    private static Connection conn = null;
+    private static List<General> generales = new ArrayList<>();
 
     public static Connection conectarBD(String BD) throws SQLException {
-
-        Connection connection = null;
-        String USUARIO = "root";
-        String PASS = "";
-        String HOST = "localhost:3306";
-        boolean connectionOK = true;
 
 
         Calendar ahora = Calendar.getInstance();
@@ -34,7 +32,7 @@ public class basesDate {
 
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
-            connection = (Connection) DriverManager.getConnection(
+            conn = (Connection) DriverManager.getConnection(
                     "jdbc:mysql://" + HOST + "/" + BD, USUARIO, PASS);
             mostrarBD.setText("Conección satisfactoria");
             System.out.println("Conexión satisfactoria");
@@ -46,11 +44,12 @@ public class basesDate {
             System.out.println(exception.getMessage());
         } finally {
             System.out.print(connectionOK);
-            return connection;
+            return conn;
         }
 
 
     }
+
 
     // metodo para agregar datos a las columnas de la tabla de mi base de datos.
 //    public static void intoTable(Connection connection, String rutaFichero) {
@@ -74,31 +73,87 @@ public class basesDate {
 
 
     /**
-     * Metodo para botener los atriburos randon de los
+     * Metodo para obtener los atriburos randon de los
      * generales.
+     *
      * @return int random
      */
-    private static int Atributos(){
+    private static int Atributos() {
         return (int) (Math.random() * 100);
     }
-    public static void agregarGeneral(Connection connection, String nombre, int ataque, int defensa, int salud, int peso){
 
-        int filas_afectadas = -1;
-        String sentencia = "INSERT INTO generales(Nombre, Ataque, Defensa, Salud, Peso) VALUES (" + general.getNombre() + "', " + general.getAtaque() +
-                "," + general.getDefensa() + "," + general.getSalud() + ");";
+    public static Connection getConnection() {
+        return conn;
+    }
 
-
-        try{
-            Statement stmt =  connection.createStatement() ;
-            filas_afectadas = stmt.executeUpdate(sentencia);
-            System.out.println(filas_afectadas + "filas(s) insertadas(s).");
-        }catch (SQLException ex){
-            System.out.println("Error con la insercion de los generales: " + ex.getMessage());
+    //Metodo para desconectar la bases de datos.
+    public void desconectar() {
+        try {
+            conn.close();
+            conn = null;
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
     }
 
+        // agramanos los generales.
+        public static void agregarGeneral(General general){
+
+            try (Connection connection = basesDate.getConnection();
+                 Statement stmt = connection.createStatement()) {
+                String sentencia = "INSERT INTO generales(Nombre, Ataque, Defensa, Salud, Peso) VALUES ("
+                        + "'" + general.getNombre() + "', "
+                        + general.getAtaque() + ","
+                        + general.getDefensa() + ","
+                        + general.getSalud() + ","
+                        + General.PESO_GENERAL + ");";
+
+
+                System.out.println("Generales insertados.");
+            } catch (SQLException ex) {
+                System.out.println("Error con la insercion de los generales: " + ex.getMessage());
+            }
+        }
+
+        public static  void updateGenerales(Connection connection){
+        String query = "delete from generales";
+        try (PreparedStatement statement = connection.prepareStatement(query)){
+            statement.execute();
+            System.out.println("Generales reiniciados");
+        } catch (SQLException e) {
+            System.out.println("Error en el update de los generales ");
+            System.out.println(e.getMessage());
+        }
+        }
+
+        private static void generalSel(){
+        try(Connection connection = basesDate.getConnection();
+            Statement stmt = connection.createStatement()){
+            String query = "Select * from generales ";
+
+            stmt.executeQuery(query);
+
+            while (stmt.getResultSet().next()){
+                General general = new General();
+                general.setNombre(stmt.getResultSet().getString("Nombre"));
+                general.setAtaque(stmt.getResultSet().getInt("Ataque"));
+                general.setDefensa(stmt.getResultSet().getInt("Defensa"));
+                general.setSalud(stmt.getResultSet().getInt("Salud"));
+                general.setPeso(stmt.getResultSet().getInt("Peso"));
+                generales.add(general);
+            }
+            System.out.println("Generales seleccionados");
+        }catch(SQLException e){
+            System.out.println("Error al seleccionar generales" +
+                    e.getMessage());
+
+        }
+        }
+
+        public static List<General> getGenerales(){
+        return generales;
+        }
+
 
     }
-
-
 

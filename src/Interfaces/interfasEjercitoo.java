@@ -11,6 +11,7 @@ import componentes.personas.General;
 import componentes.personas.Infanteria;
 import controladores.ExploradorFicheros;
 import controladores.GestorFichero;
+import database.basesDate;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -20,7 +21,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.Arrays;
 import java.util.Vector;
-import static database.basesDate.conectarBD;
+import static database.basesDate.*;
 
 public class interfasEjercitoo extends javax.swing.JFrame {
 
@@ -33,6 +34,8 @@ public class interfasEjercitoo extends javax.swing.JFrame {
     private General general;
     private Elefante elefante;
     private Tigre trigre;
+
+    private static General selectGeneral = new General();
     //declaracion de variables, nombre de los botones.
     private JButton ConfirmarElementos;
     private JButton NombreEjercito;
@@ -73,6 +76,8 @@ public class interfasEjercitoo extends javax.swing.JFrame {
         barra.setMaximum(Ejercito.getMaxPeso());
         barra.setStringPainted(true);
         barra.setString(ejercito.getSaldoPeso() + "/" + Ejercito.getMaxPeso());
+
+        btnGeneral.addItem("Generales");
 
     }
 
@@ -446,8 +451,10 @@ public class interfasEjercitoo extends javax.swing.JFrame {
      */
     private void btnGeneralActionPerformed(java.awt.event.ActionEvent evt) {
 
+        selectGeneral = basesDate.getGenerales().get(btnGeneral.getSelectedIndex());
+        btnGeneral.setEditable(false);
         if (!ejercito.hayGeneral) {
-            General general = new General();
+
             if ((ejercito.getSaldoPeso() + General.PESO_GENERAL) <= Ejercito.MAX_PESO) {
                 modelo.addRow(new Object[]{
                         general.getNombre(),
