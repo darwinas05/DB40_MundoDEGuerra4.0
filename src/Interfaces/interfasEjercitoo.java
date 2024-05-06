@@ -545,11 +545,7 @@ public class interfasEjercitoo extends javax.swing.JFrame {
 
         dispose();
 
-        try {
-            GestorFichero.obtenerNombreGeneral(ExploradorFicheros.getRuta());
-        } catch (IOException ex) {
-            System.out.println(ex.getMessage());
-        }
+        GestorFichero.obtenerNombreGeneral(ExploradorFicheros.getRuta());
 
     }
     private void getAboutUnit(){
@@ -567,6 +563,7 @@ public class interfasEjercitoo extends javax.swing.JFrame {
 
 
     }
+
 
     public static Batalla getBatalla(){
         return batalla;

@@ -103,13 +103,22 @@ public class interfasPrincipal extends javax.swing.JFrame {
 private void paraSeleccionarActionPerformed(java.awt.event.ActionEvent evt){
         ExploradorFicheros.obtenerRuta();
 
-    try {
-//
-//        Connection connection = basesDate.conectarBD("waw");
-//        basesDate.
+        try (Connection connection = basesDate.getConnection();
+                  Statement stmt = connection.createStatement()) {
+        String query = "INSERT INTO generales(Nombre, Ataque, Defensa, Salud, Peso) VALUES ("
+                + "'" + general.getNombre() + "', "
+                + general.getAtaque() + ","
+                + general.getDefensa() + ","
+                + general.getSalud() + ","
+                + General.PESO_GENERAL + ");";
+
+
+        System.out.println("Generales insertados.");
+
+
         GestorFichero.obtenerNombreGeneral(ExploradorFicheros.getRuta());
 
-    } catch (IOException ex) {
+    } catch (SQLException ex) {
         System.out.printf(ex.getMessage());
 
         int filas_afectadas = -1;

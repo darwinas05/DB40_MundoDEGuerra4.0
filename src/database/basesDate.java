@@ -101,7 +101,7 @@ public class basesDate {
 
             try (Connection connection = basesDate.getConnection();
                  Statement stmt = connection.createStatement()) {
-                String sentencia = "INSERT INTO generales(Nombre, Ataque, Defensa, Salud, Peso) VALUES ("
+                String query = "INSERT INTO generales(Nombre, Ataque, Defensa, Salud, Peso) VALUES ("
                         + "'" + general.getNombre() + "', "
                         + general.getAtaque() + ","
                         + general.getDefensa() + ","
@@ -126,8 +126,11 @@ public class basesDate {
         }
         }
 
+
+    //para seleccionar generales en un JComboBox
         private static void generalSel(){
-        try(Connection connection = basesDate.getConnection();
+
+            try(Connection connection = basesDate.getConnection();
             Statement stmt = connection.createStatement()){
             String query = "Select * from generales ";
 
