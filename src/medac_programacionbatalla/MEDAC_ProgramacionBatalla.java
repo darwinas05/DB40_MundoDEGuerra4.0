@@ -5,11 +5,8 @@
 package medac_programacionbatalla;
 
 
+import ConnectionDB40.connectionDB40;
 import Interfaces.interfasPrincipal;
-import batallas.Batalla;
-import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  * @author danie
@@ -22,7 +19,7 @@ public class MEDAC_ProgramacionBatalla {
     public static void main(String[] args) {
 
 
-        Connection_DB40.DB40.conectarDB40();
+        connectionDB40.conectarDB40();
 
         //        basesDate conecBases = new basesDate();
         interfasPrincipal interfasprincipal = new interfasPrincipal();
