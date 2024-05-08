@@ -35,7 +35,7 @@ public class connectionDB40 {
         return bd;
     }
 
-// Metodo para cerrar la base de datos.
+// Metodo para cerrar la base de datos...
 public static void cerrarDB40(){
         try{
             bd.close();
