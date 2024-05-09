@@ -5,8 +5,11 @@
 package medac_programacionbatalla;
 
 
-import ConnectionDB40.connectionDB40;
+import connectionDB40.connectionDB4o;
 import Interfaces.interfasPrincipal;
+import lecturaXlsx.LeerArchivosDeExcel;
+
+import java.io.File;
 
 /**
  * @author danie
@@ -18,8 +21,16 @@ public class MEDAC_ProgramacionBatalla {
      */
     public static void main(String[] args) {
 
+        File file = new File("Heroes.xlsx");
+        if(file.exists()){
 
-        connectionDB40.conectarDB40();
+            //Instancia de la clase LeerArchivosDeExcel le pasamos el nombre del fichero que queremos leer
+            LeerArchivosDeExcel leerArchivosDeExcel = new LeerArchivosDeExcel(file);
+        }
+
+
+
+        connectionDB4o.conectarDB40();
 
         //        basesDate conecBases = new basesDate();
         interfasPrincipal interfasprincipal = new interfasPrincipal();

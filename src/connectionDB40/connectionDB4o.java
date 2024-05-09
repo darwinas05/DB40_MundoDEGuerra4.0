@@ -1,16 +1,15 @@
-package ConnectionDB40;
+package connectionDB40;
 
 import com.db4o.Db4oEmbedded;
 import com.db4o.ObjectContainer;
 import com.db4o.ObjectSet;
 import com.db4o.ext.Db4oException;
+import com.db4o.query.Query;
 import componentes.personas.Condecorados;
-import componentes.personas.General;
 
 import java.util.ArrayList;
-import java.util.List;
 
-public class connectionDB40 {
+public class connectionDB4o {
 
     public ArrayList<Condecorados>obtenerCondecorados = new ArrayList<>();
     private static ObjectContainer bd = null;
@@ -21,7 +20,10 @@ public class connectionDB40 {
      */
     public static ObjectContainer conectarDB40() {
         try {
-            bd = Db4oEmbedded.openFile(Db4oEmbedded.newConfiguration(), "C:\\Users\\darwi\\OneDrive\\Documentos\\TrabajosProgramación\\mundos de guerra\\DB40_MundoDEGuerra4.0-conDB40\\ Heroes2.db4o");
+            bd = Db4oEmbedded.openFile(Db4oEmbedded.newConfiguration(), "Heroes2.db4o");
+            Query consulta = bd.query();
+
+            consulta.constrain(Condecorados.class);
             Condecorados condecorados = new Condecorados(null,null,null,null,null);
             ObjectSet sentencia = bd.queryByExample(condecorados);
 

@@ -9,5 +9,12 @@
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="mysql-connector-java-8.0.201" level="project" />
     <orderEntry type="library" name="db4o-8.0.184.15484" level="project" />
+    <orderEntry type="library" name="commons-io-2.16.1" level="project" />
+    <orderEntry type="library" name="poi-5.2.5" level="project" />
+    <orderEntry type="library" name="poi-excelant-5.2.5" level="project" />
+    <orderEntry type="library" name="poi-ooxml-5.2.5" level="project" />
+    <orderEntry type="library" name="poi-ooxml-schemas-4.1.2" level="project" />
+    <orderEntry type="library" name="poi-scratchpad-5.2.5" level="project" />
+    <orderEntry type="library" name="xmlbeans-5.2.0" level="project" />
   </component>
 </module>
