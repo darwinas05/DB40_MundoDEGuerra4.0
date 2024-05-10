@@ -5,11 +5,22 @@
 package medac_programacionbatalla;
 
 
+import componentes.personas.Condecorados;
 import connectionDB40.connectionDB4o;
 import Interfaces.interfasPrincipal;
 import lecturaXlsx.LeerArchivosDeExcel;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
+import java.util.Iterator;
+import java.util.List;
+
 
 /**
  * @author danie
@@ -21,16 +32,6 @@ public class MEDAC_ProgramacionBatalla {
      */
     public static void main(String[] args) {
 
-        File file = new File("Heroes.xlsx");
-        if(file.exists()){
-
-            //Instancia de la clase LeerArchivosDeExcel le pasamos el nombre del fichero que queremos leer
-            LeerArchivosDeExcel leerArchivosDeExcel = new LeerArchivosDeExcel(file);
-        }
-
-
-
-        connectionDB4o.conectarDB40();
 
         //        basesDate conecBases = new basesDate();
         interfasPrincipal interfasprincipal = new interfasPrincipal();
