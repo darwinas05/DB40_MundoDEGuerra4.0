@@ -4,7 +4,7 @@ import batallas.Batalla;
 import batallas.Ejercito;
 import batallas.Message;
 import componentes.Componentes;
-import componentes.animales.Elefante;
+import componentes.personas.Heroes;
 import componentes.animales.Tigre;
 import componentes.personas.Caballeria;
 import componentes.personas.General;
@@ -14,10 +14,6 @@ import controladores.GestorFichero;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
-import java.io.IOException;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.util.Arrays;
 import java.util.Vector;
 
@@ -30,7 +26,7 @@ public class interfasEjercitoo extends javax.swing.JFrame {
     private Componentes componentes;
     private Timer timer;
     private General general;
-    private Elefante elefante;
+    private Heroes heroes;
     private Tigre trigre;
 
     private static General selectGeneral = new General();
@@ -40,10 +36,10 @@ public class interfasEjercitoo extends javax.swing.JFrame {
     private JProgressBar barra;
     //para mas :
     private JPanel botones;
-    private JButton btnElefante;
+    private JComboBox<String> btnHeroes;
     private JButton btnEliminar;
     private JComboBox<String> btnGeneral;
-    private JButton btnTigre;
+    private JComboBox<String> btnTigre;
     private JButton caballeria;
     private JButton comfirmarEjercito;
     private JButton infanteria;
@@ -75,7 +71,9 @@ public class interfasEjercitoo extends javax.swing.JFrame {
         barra.setStringPainted(true);
         barra.setString(ejercito.getSaldoPeso() + "/" + Ejercito.getMaxPeso());
 
+
         btnGeneral.addItem("Generales");
+        btnHeroes.addItem("Heroes");
 
     }
 
@@ -112,8 +110,8 @@ public class interfasEjercitoo extends javax.swing.JFrame {
         infanteria = new javax.swing.JButton();
         caballeria = new javax.swing.JButton();
         btnGeneral = new javax.swing.JComboBox<>();
-        btnElefante = new javax.swing.JButton();
-        btnTigre = new javax.swing.JButton();
+        btnHeroes = new javax.swing.JComboBox<>();
+        btnTigre = new javax.swing.JComboBox<>();
         btnEliminar = new javax.swing.JButton();
         ConfirmarElementos = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
@@ -161,14 +159,14 @@ public class interfasEjercitoo extends javax.swing.JFrame {
             }
         });
 
-        btnElefante.setText("Añadir Elefante");
-        btnElefante.addActionListener(new java.awt.event.ActionListener() {
+        btnHeroes.setModel(new javax.swing.DefaultComboBoxModel<>(new String[]{}));
+        btnHeroes.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnElefanteActionPerformed(evt);
+                btnHeroesActionPerformed(evt);
             }
         });
 
-        btnTigre.setText("Añadir Tigre");
+        btnTigre.setModel(new javax.swing.DefaultComboBoxModel<>(new String[]{}));
         btnTigre.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnTigreActionPerformed(evt);
@@ -199,10 +197,10 @@ public class interfasEjercitoo extends javax.swing.JFrame {
                                         .addComponent(infanteria)
                                         .addComponent(NombreEjercito)
                                         .addGroup(botonesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                                .addComponent(btnElefante, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                                .addComponent(btnGeneral, GroupLayout.Alignment.TRAILING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                                .addComponent(btnHeroes, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                                .addComponent(btnGeneral, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                                 .addComponent(caballeria, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                                .addComponent(btnTigre, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                                .addComponent(btnTigre,javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                                         .addComponent(btnEliminar)
                                         .addGroup(botonesLayout.createSequentialGroup()
                                                 .addGap(18, 18, 18)
@@ -220,7 +218,7 @@ public class interfasEjercitoo extends javax.swing.JFrame {
                                 .addGap(20, 20, 20)
                                 .addComponent(btnGeneral, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(21, 21, 21)
-                                .addComponent(btnElefante)
+                                .addComponent(btnHeroes)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 31, Short.MAX_VALUE)
                                 .addComponent(btnTigre)
                                 .addGap(18, 18, 18)
@@ -350,7 +348,7 @@ public class interfasEjercitoo extends javax.swing.JFrame {
 
         // Agregamos un icono al JOptionPane, el mensaje a mostrar y el titulo de la ventana.
         String ingresaName = JOptionPane.showInputDialog(null, new JLabel("Ingresa un nombre para tu ejército",
-                        icono("/imagenes/desplazarse.png", 40, 40), JLabel.CENTER),
+                        icono("/imagenes/favicon.ico", 40, 40), JLabel.CENTER),
                 "Nombre del ejército", JOptionPane.PLAIN_MESSAGE);
         ejercito.asignarNombre(ingresaName);
         this.jLabel2.setText(ingresaName);
@@ -401,20 +399,20 @@ public class interfasEjercitoo extends javax.swing.JFrame {
 
     }
 
-    private void btnElefanteActionPerformed(java.awt.event.ActionEvent evt) {
-        Elefante elefante = new Elefante();
-        if ((ejercito.getSaldoPeso() + Elefante.PESO_ELEFANTE) <= Ejercito.MAX_PESO) {
+    private void btnHeroesActionPerformed(java.awt.event.ActionEvent evt) {
+        Heroes heroes = new Heroes();
+        if ((ejercito.getSaldoPeso() + Heroes.PESO_ELEFANTE) <= Ejercito.MAX_PESO) {
 
             modelo.addRow(new Object[]{
-                    "Elefante",
+                    "Heroe",
                     Componentes.getID(),
-                    elefante.getAtaque(),
-                    elefante.getDefensa(),
-                    elefante.getSalud(),
+                    heroes.getAtaque(),
+                    heroes.getDefensa(),
+                    heroes.getSalud(),
 
             });
-            ejercito.adicionarUnidad(elefante);// añadimos este elemento al ejercito.
-            ejercito.saldoPeso += Elefante.PESO_ELEFANTE;
+            ejercito.adicionarUnidad(heroes);// añadimos este elemento al ejercito.
+            ejercito.saldoPeso += Heroes.PESO_ELEFANTE;
 
         } barra.setString(ejercito.getSaldoPeso() + "/" + Ejercito.getMaxPeso());
         barra.setValue(ejercito.getSaldoPeso());
@@ -480,6 +478,15 @@ public class interfasEjercitoo extends javax.swing.JFrame {
 
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {
 
+        int elimi = modelo.getRowCount();
+        if (elimi >= 0) {
+            int lastIndex = elimi - 1;
+            modelo.removeRow(lastIndex);
+
+        } else {
+            JOptionPane.showMessageDialog(null, "No hay elementos para eliminar.");
+        }
+        ejercito.actualizarEjercito();
 
     }
 

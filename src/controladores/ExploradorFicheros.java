@@ -2,9 +2,8 @@
 package controladores;
 
 import javax.swing.*;
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
+import javax.swing.filechooser.FileNameExtensionFilter;
+import java.io.*;
 
 public class ExploradorFicheros {
 
@@ -12,18 +11,27 @@ public class ExploradorFicheros {
     private static final JFileChooser Chooser = new JFileChooser();
     private static String ruta;
 
-    public static String obtenerRuta() {
-    if(Chooser.showOpenDialog(Chooser)== JFileChooser.APPROVE_OPTION){
-        try{
-            ruta = Chooser.getSelectedFile().getAbsolutePath();
-        }catch(NullPointerException e){
-            System.out.println("No haz seleccionado ningún fichero");
-        }catch (Exception e){
-            System.out.println(e.getMessage());
-        }
 
-    }
-    return ruta;
+    public static String obtenerRuta() {
+        FileNameExtensionFilter filter = new FileNameExtensionFilter("Ficheros CSV","csv");
+        Chooser.addChoosableFileFilter(filter);
+        Chooser.setSelectedFile(new File("Heroes.csv"));
+
+
+        try{
+        if(Chooser.showOpenDialog(Chooser)== JFileChooser.APPROVE_OPTION) {
+            File selectedFile = Chooser.getSelectedFile();
+            if (!selectedFile.getName().endsWith(".csv")) {
+                throw new Exception("Debes seleccionar un archivo CSV.");
+            }
+            ruta = Chooser.getSelectedFile().getAbsolutePath();
+        }else {
+            throw new Exception("No haz seleccionado ningún fichero");
+        }
+            }catch(Exception e){
+                System.out.println(e.getMessage());
+            }
+            return ruta;
     }
 
     public static String leerFichero(String path){
@@ -31,10 +39,10 @@ public class ExploradorFicheros {
         StringBuilder contenido = new StringBuilder();
 
         try(BufferedReader br = new BufferedReader(new FileReader(path))){
-                String linea;
-                while((linea = br.readLine()) != null){
-                    contenido.append(linea).append("\n");
-                }
+            String linea;
+            while((linea = br.readLine()) != null){
+                contenido.append(linea).append("\n");
+            }
         }catch (IOException e){
             System.out.println(e.getMessage());
         }

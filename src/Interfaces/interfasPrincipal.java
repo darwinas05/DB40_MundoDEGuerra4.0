@@ -1,9 +1,12 @@
 package Interfaces;
 
 import  Interfaces.interfasEjercitoo;
+import componentes.personas.Condecorados;
 import componentes.personas.General;
 import controladores.ExploradorFicheros;
 import controladores.GestorFichero;
+import lecturaFichero.LeerArchivos;
+import connectionDB40.connectionDB4o;
 
 import javax.swing.*;
 import java.awt.*;
@@ -12,6 +15,8 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
+
+import static connectionDB40.connectionDB4o.leerFiche;
 
 //import database.basesDate;
 
@@ -107,21 +112,15 @@ private void paraSeleccionarActionPerformed(java.awt.event.ActionEvent evt){
 
         GestorFichero.obtenerNombreGeneral(ExploradorFicheros.getRuta());
 
+            LeerArchivos csv = new LeerArchivos();
+            connectionDB4o connect = new connectionDB4o();
+
+            csv.leerFichero("Heroess.csv");
+            connect.agregarCondecorados(leerFiche.condecorados);
+
     } catch (Exception ex) {
         System.out.printf(ex.getMessage());
 
-        int filas_afectadas = -1;
-        String sentencia = "INSERT INTO generales(Nombre, Ataque, Defensa, Salud, Peso) VALUES ("+ general.getNombre() + ',' + general.getAtaque() + ","
-                + general.getDefensa() + "," + general.getSalud() + ")";
-        try{
-            Connection connection = null;
-            Statement stmt =  connection.createStatement() ;
-            filas_afectadas = stmt.executeUpdate(sentencia);
-            System.out.println(filas_afectadas + "filas(s) insertadas(s).");
-
-        }catch (SQLException e){
-            System.out.println("Error: " + ex.getMessage());
-        }
     }
 
 }

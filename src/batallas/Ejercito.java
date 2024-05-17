@@ -5,7 +5,7 @@
 package batallas;
 
 import componentes.Componentes;
-import componentes.animales.Elefante;
+import componentes.personas.Heroes;
 import componentes.animales.Tigre;
 import componentes.personas.Caballeria;
 import componentes.personas.General;
@@ -165,8 +165,8 @@ public class Ejercito {
                 break;
             case "e":
                 try {
-                    if (((saldoPeso + Elefante.PESO_ELEFANTE) < MAX_PESO) && contadorAnimales < MAX_ANIMALES) {
-                        adicionarUnidad(new Elefante());
+                    if (((saldoPeso + Heroes.PESO_ELEFANTE) < MAX_PESO) && contadorAnimales < MAX_ANIMALES) {
+                        adicionarUnidad(new Heroes());
                         imprimirInfo(unidades.getLast());
                     } else {
                         if (saldoPeso == MAX_PESO) {
@@ -317,7 +317,7 @@ public class Ejercito {
                 unidades.add(componentes);
                 saldoPeso += componentes.getPeso();
                 hayGeneral = true;
-            } else if (componentes instanceof Elefante || componentes instanceof Tigre) {
+            } else if (componentes instanceof Heroes || componentes instanceof Tigre) {
                 unidades.add(componentes);
                 saldoPeso += componentes.getPeso();
                 contadorAnimales++;
@@ -332,7 +332,7 @@ public class Ejercito {
                 if (unidad.getNombre().equalsIgnoreCase(nombreUnidad)) {
                     if (unidad instanceof General) {
                         hayGeneral = false;
-                    } else if (unidad instanceof Elefante || unidad instanceof Tigre) {
+                    } else if (unidad instanceof Heroes || unidad instanceof Tigre) {
                         contadorAnimales--;
                     }
 

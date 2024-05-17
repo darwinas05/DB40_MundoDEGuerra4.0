@@ -1,5 +1,8 @@
 package componentes.personas;
 
+/**
+ * Clase Condecorados representa a quienes han recibido una condecoración.
+ */
 public class Condecorados {
 
 
@@ -15,7 +18,14 @@ public class Condecorados {
     //Condecorado
     private String nameOfApprovedAward;
 
-
+    /**
+     *
+     * @param lastName lastName Apellido de la persona condecorada.
+     * @param firstName firstName Nombre de la persona condecorada.
+     * @param officerOrEnlisted Indica si la persona es oficial o individuo alistado en el ejército.
+     * @param typeOfActionComm Grado del mérito.
+     * @param nameOfApprovedAward Nombre de la condecoración aprobada.
+     */
     public Condecorados(String lastName, String firstName, String officerOrEnlisted, String typeOfActionComm, String nameOfApprovedAward){
         this.lastName = lastName;
         this.firstName = firstName;
@@ -25,6 +35,7 @@ public class Condecorados {
     }
 
     //Metodos getters.
+
     public String getLastName() {
         return lastName;
     }
@@ -64,6 +75,11 @@ public class Condecorados {
         this.nameOfApprovedAward = nameOfApprovedAward;
     }
 
+    /**
+     * Devuelve una representación de cadena de la instancia de Condecorados.
+     *
+     * @return Una representación de cadena de la instancia de Condecorados.
+     */
     @Override
     public String toString() {
         return "Condecorados{" +
